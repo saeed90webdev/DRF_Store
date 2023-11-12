@@ -6,6 +6,9 @@ class Category(models.Model):
     description = models.CharField(max_length=500, blank=True)
     top_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
 
+    def __str__(self):
+        return self.title
+
 
 class Discount(models.Model):
     discount = models.FloatField()
@@ -22,6 +25,9 @@ class Product(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_modified = models.DateTimeField(auto_now=True)
     discounts = models.ManyToManyField(Discount, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Customer(models.Model):
@@ -52,6 +58,9 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name='orders')
     datetime_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=1, choices=ORDER_STATUS, default=ORDER_STATUS_UNPAID)
+
+    def __str__(self):
+        return f'Order id={self.id}'
 
 
 class OrderItem(models.Model):
